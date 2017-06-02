@@ -1,4 +1,6 @@
 <link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../lrndesign-animationctrl/lrndesign-animationctrl.html">
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/1.18.0/TweenMax.min.js"></script>
 
 <!--
@@ -21,6 +23,10 @@
         text-align: center;
       }
     </style>
+    <lrndesign-animationctrl>
+      <lrndesign-animationctrl-button name="play" icon="media"></lrndesign-animationctrl-button>
+      <lrndesign-animationctrl-button name="replay" icon="media"></lrndesign-animationctrl-button>
+    </lrndesign-animationctrl>
     <h1>Fat Synthesis</h1>
     <svg id="elements" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 630.51 577.96">
     <defs>
@@ -1384,9 +1390,8 @@
       is: 'fat-synthesis-element',
 
       properties: {
-        prop1: {
-          type: String,
-          value: 'fat-synthesis-element',
+       tl: {
+          type: Object
         },
       },
 
@@ -1462,6 +1467,20 @@
         tl.to([esterlinkage], 1, {
           x: "-=72",
           alpha: 1
+        });
+
+        tl.pause();
+         
+        // listen for button clicks and play and pause the animation
+        this.$$('lrndesign-animationctrl').addEventListener('lrndesign-animationctrl-click', function(e) {
+          var name = e.detail.button;
+          if (name === 'play') {
+            tl.play();
+          }
+          if (name === 'replay') {
+            tl.progress(0);
+            tl.pause();
+          }
         });
 
       }
